@@ -1,0 +1,72 @@
+
+from funciones_parcial import*
+
+def cargar_nombre_participantes(array_nombres:list, mensaje:str, mensaje_error:str) -> bool:
+    """Carga los nombres de los participantes mediante un input en un array dado, validando cada entrada
+
+    Args:
+        array_nombres (list): Una lista preexistente donde se almacenarán los nombres de los participantes.
+        mensaje (str): El mensaje que se mostrará al usuario para solicitar cada nombre.
+        mensaje_error (str): El mensaje que se mostrará al usuario si el nombre ingresado no es válido.
+
+    Returns:
+        bool: **True** si `array_nombres` es una lista válida y no está vacía, y el proceso de carga se inicia.
+          **False** si `array_nombres` no es una lista o está vacía, indicando que no se pueden cargar nombres.
+    """
+    if type(array_nombres) == list and len(array_nombres) > 0:
+        retorno = True
+        for i in range(len(array_nombres)):
+            nombre = input(f"{mensaje} {i+1}:")
+            while validar_letras_y_espacios(nombre) == False or validar_dimension_cadena(nombre, 3) == False:
+                nombre = input(f"{mensaje_error} {i+1}:")               
+            array_nombres[i] = nombre
+    else:
+        retorno = False
+        
+    return retorno
+
+def cargar_puntuaciones(matriz:list, mensaje:str, mensaje_error:str) -> bool:
+    """Carga las puntuaciones de los jurados para cada participante en una matriz mediante un input.
+
+    Args:
+        matriz (list): Una lista de listas (matriz) donde se almacenarán las puntuaciones.
+        mensaje (str): El mensaje que se mostrará al usuario para solicitar cada puntuación.
+        mensaje_error (str): El mensaje que se mostrará si la puntuación ingresada no es válida.
+
+    Returns:
+        bool: **True** si la `matriz` es una lista válida y no está vacía, y el proceso de carga se inicia.
+        **False** si la `matriz` no es una lista o está vacía, indicando que no se pueden cargar puntuaciones.
+    """
+    if type(matriz) == list and len(matriz) > 0:
+        retorno = True
+        for i in range(len(matriz)):
+            for j in range(len(matriz[i])):
+                puntuacion = input(f"{mensaje} {j + 1} para el participante {i + 1}: ")
+                while validar_numeros(puntuacion) == False:
+                    puntuacion = input(f"{mensaje_error} {j + 1} para el participante {i + 1}: ")
+                puntuacion = int(puntuacion)
+                while puntuacion < 1 or puntuacion > 10:
+                    puntuacion = int(input(f"{mensaje_error} {j + 1} para el participante {i + 1}: "))
+
+                matriz[i][j] = puntuacion
+    else:
+        retorno = False
+        
+    return retorno
+
+def pedir_nombre_a_buscar(mensaje: str, mensaje_erorr:str)-> str:
+    """Solicita al usuario un nombre para buscar, validando el formato de la entrada.
+
+    Args:
+        mensaje (str): El mensaje que se muestra al usuario para solicitar el nombre.
+        mensaje_erorr (str): El mensaje que se muestra si el nombre ingresado es inválido,
+                         solicitando al usuario que reingrese el nombre.
+
+    Returns:
+        str: El nombre validado ingresado por el usuario.
+    """
+    nombre_a_buscar = input(f"{mensaje}")
+    while validar_letras_y_espacios(nombre_a_buscar) == False or validar_dimension_cadena(nombre_a_buscar, 3) == False:
+        nombre_a_buscar = input(f"{mensaje_erorr}")
+
+    return nombre_a_buscar
