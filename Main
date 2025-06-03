@@ -1,0 +1,158 @@
+
+from funciones_parcial import*
+from input_parcial import*
+
+"""Resolver el siguiente problema realizando un menú de opciones
+Una academia de baile organiza una competencia abierta para definir a su nuevo o nueva
+representante nacional. La competencia cuenta con un jurado compuesto por tres personas,
+cada una de las cuales puntúa a los participantes del 1 al 10.
+Se requiere un sistema que permita:
+● Registrar los nombres de los participantes (5 en total)
+● Registrar las puntuaciones que cada jurado otorga a cada participante
+● Procesar y mostrar diferentes informaciones relevantes a partir de los datos cargados
+
+Cada participante debe almacenar la siguiente información:
+● Nombre del participante
+● Puntuación del Jurado 1
+● Puntuación del Jurado 2
+● Puntuación del Jurado 3
+
+Se requiere lo siguiente:
+
+1. Cargar participantes: Ingresar los nombres de cinco participantes. Cada nombre
+    debe tener al menos 3 caracteres y solo contener letras y espacios.
+2. Cargar puntuaciones: Ingresar la puntuación de cada jurado para cada participante.
+    Las puntuaciones deben estar entre 1 y 10.
+3. Mostrar puntuaciones: Mostrar para cada participante: nombre, puntajes individuales
+    y promedio general. Usar formato claro y ordenado.
+4.Participantes con promedio mayor a 4: Mostrar los que hayan tenido un promedio
+    de puntuación mayor a 4. Si no hay ninguno, mostrar mensaje de error.
+5. Participantes con promedio mayor a 7: Mostrar los que hayan tenido un promedio
+    de puntuación mayor a 7. Si no hay ninguno, mostrar mensaje de error.
+6. Promedio de cada jurado: Mostrar el promedio de puntuaciones otorgadas por cada
+    jurado.
+7. Jurado más estricto: Indicar cuál jurado otorgó los puntajes promedio más bajos.
+8. Buscar participante por nombre: Permitir ingresar un nombre y mostrar sus datos si
+    existe. Si no existe, mostrar mensaje de error.
+
+PUNTOS EXTRA (SUBEN NOTA)
+9. Top 3: Mostrar los tres participantes con mayor puntaje promedio
+10. Participantes ordenados alfabéticamente: Mostrar los participantes ordenados
+de (A a Z) con sus datos
+
+
+"""
+
+array_participantes = crear_array(5,"")
+array_participantes_auxiliar = crear_array(5,"")
+array_promedios_jurados = crear_array(3,0)
+matriz_puntuaciones = crear_matriz(5,3,0)
+array_promedios_participantes = crear_array(5,0)
+lista_top3 = crear_array(3,0)
+array_promedios_participantes_auxiliar = crear_array(5,0)
+
+
+count_op_1 = 0
+count_op_2 = 0
+
+mensaje1 = "Ingrese el nombre del participante"
+mensaje2 = "Ingrese la puntuacion (1-10) del jurado"
+mensaje8 = "Ingrese el nombre a buscar: "
+mensaje_error1 = "ERROR! vuelva a ingresar el nombre del participante"
+mensaje_error2 = "ERROR! vuelva a ingresar la puntuacion (1-10) del jurado"
+mensaje_error4 = "Error!! no hay ningun participante con promedio superior a"
+mensaje_error8 = "ERROR!! vuelva a ingresar el nombre a buscar: "
+
+while True:
+    print("\n******BIENVENIDO******")
+    print("1.Cargar participantes\n2.Cargar puntuaciones\n3.Mostrar puntuaciones\n4.Participantes con promedio mayor a 4\n5.Participantes con promedio mayor a 7\n6.Promedio de cada jurado\n7.Jurado más estricto\n8.Buscar participante por nombre\n9.Top 3\n10.Participantes ordenados alfabéticamente\n11.Salir\n")
+    opcion = input("Ingrese su opcion: ")
+    while validar_numeros(opcion) == False:
+        print("ERROR!! ESTA INGRESANDO UN DATO INVALIDO\n")
+        opcion = input("Ingrese su opcion: ")
+    opcion = int(opcion)
+    while opcion < 1 or opcion > 11:
+        opcion = int(input("\nReingrese su opcion (1-11): "))
+
+    if opcion == 1:
+        if cargar_nombre_participantes(array_participantes, mensaje1, mensaje_error1) == True:
+            count_op_1 += 1
+            mostrar_array(array_participantes)
+
+
+    elif opcion == 2:
+        if count_op_1 > 0 and cargar_puntuaciones(matriz_puntuaciones, mensaje2, mensaje_error2) == True:
+            count_op_2 += 1
+            mostrar_matriz(matriz_puntuaciones)
+            
+
+        else:
+            print("\nERROR!!!Primero debe ingresar los nombres de los participantes\n")
+   
+    elif opcion == 3:
+        if count_op_1 > 0 and count_op_2 > 0:
+            if mostrar_puntajes_participantes(array_participantes, matriz_puntuaciones) == False:
+                print("Hubo un error al mostrar el participante") 
+        else:
+            print("\nERROR!!!Primero debe ingresar los nombres y puntuaciones de los participantes\n")
+    
+    elif opcion == 4:
+        if count_op_1 > 0 and count_op_2 > 0: 
+            if mostrar_participantes_mayor_a_cierto_promedio(array_participantes, matriz_puntuaciones, 4) == False:
+                print(f"{mensaje_error4} 4")
+
+        else:
+            print("\nERROR!!!Primero debe ingresar los nombres y puntuaciones de los participantes\n")
+
+    elif opcion == 5:
+        if count_op_1 > 0 and count_op_2 > 0: 
+            if mostrar_participantes_mayor_a_cierto_promedio(array_participantes, matriz_puntuaciones, 7) == False:
+                print(f"{mensaje_error4} 7")
+   
+        else:
+            print("\nERROR!!!Primero debe ingresar los nombres y puntuaciones de los participantes\n")
+
+    elif opcion == 6:
+        if count_op_1 > 0 and count_op_2 > 0:
+            if mostrar_promedios_jurados(matriz_puntuaciones) == False:
+                print("Hubo un error al mostrar el promedio de los jurados")
+        else:
+            print("\nERROR!!!Primero debe ingresar los nombres y puntuaciones de los participantes\n")
+
+    elif opcion == 7:
+        if count_op_1 > 0 and count_op_2 > 0: 
+            cargar_promedios_jurado_en_lista(matriz_puntuaciones,array_promedios_jurados)
+            menor = encontrar_menor_en_lista(array_promedios_jurados) 
+            mostrar_jurado_mas_estricto(array_promedios_jurados,menor) 
+            
+
+        else:
+            print("\nERROR!!!Primero debe ingresar los nombres y puntuaciones de los participantes\n")
+    
+    elif opcion == 8:
+        if count_op_1 > 0 and count_op_2 > 0: 
+                nombre_a_buscar = pedir_nombre_a_buscar(mensaje8,mensaje_error8)
+                if buscar_y_mostrar_nombre(array_participantes,nombre_a_buscar,matriz_puntuaciones) == False:
+                    print("El nombre buscado no se encuentra en la lista de participantes")
+        else:
+            print("\nERROR!!!Primero debe ingresar los nombres y puntuaciones de los participantes\n")
+
+    elif opcion == 9:
+        if count_op_1 > 0 and count_op_2 > 0: 
+            if cargar_promedios_participantes_en_lista(matriz_puntuaciones,array_promedios_participantes) == False or cargar_promedios_participantes_en_lista(matriz_puntuaciones,array_promedios_participantes_auxiliar) == False or ordenar_array_mayor_menor(array_promedios_participantes) == False or cargar_top3_promedio_participantes_en_lista(array_promedios_participantes,lista_top3) == False  or mostrar_top_3_promedios_participantes(lista_top3,array_promedios_participantes_auxiliar,array_participantes) == False:
+                print("Ocurrio un error al intentar mostrar el TOP 3")
+        else:
+            print("\nERROR!!!Primero debe ingresar los nombres y puntuaciones de los participantes\n")
+
+    elif opcion == 10:
+        if count_op_1 > 0 and count_op_2 > 0: 
+            if cargar_participantes_en_lista_auxiliar(array_participantes, array_participantes_auxiliar) == False or ordenar_array_menor_mayor(array_participantes_auxiliar) == False:
+                print("Ocurrio algun error al intentar ordenar la lista")
+            else:
+                mostrar_array(array_participantes_auxiliar)
+        else:
+            print("\nERROR!!!Primero debe ingresar los nombres y puntuaciones de los participantes\n")
+
+    elif opcion == 11:
+        print("\nSaliendo......")
+        break
