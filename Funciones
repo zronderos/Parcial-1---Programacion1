@@ -1,0 +1,528 @@
+def crear_matriz(cantidad_filas:int,cantidad_columnas:int,valor_inicial:any) -> list:
+    """Crea una lista bidimensional con una cantidad de filas y columnas y el valor inicial que se indique
+
+    Args:
+        cantidad_filas (int): numero de filas
+        cantidad_columnas (int): numero de columnas
+        valor_inicial (any): el valos de los elementos de la lista 
+    Returns:
+        list: devuelve una lista bidimensional
+    """
+    matriz = []
+    for i in range(cantidad_filas):
+        fila = [valor_inicial] * cantidad_columnas
+        matriz += [fila]
+        
+    return matriz
+
+def crear_array(cantidad_elementos:int,valor_inicial:any) -> list:
+    """Crea una lista unidimensional con la cantidad de elementos y el valor inicial
+
+    Args:
+        cantidad_elementos (int): Cantidad de elementos de la lista
+        valor_inicial (any): valor de los elementos de la lista
+
+    Returns:
+        list: _description_
+    """
+    array = [valor_inicial] * cantidad_elementos
+    return array
+
+def mostrar_array(array:list):
+    """Muestra una lista dada
+
+    Args:
+        array (list): Lista a mostrar
+    """
+    for i in range(len(array)):
+        print(f"{array[i]}")
+
+def mostrar_matriz(matriz:list):
+    """Muestra una matriz y/o lista bidimensional dada
+
+    Args:
+        matriz (list): matriz a mostrar
+    """
+    for fil in range(len(matriz)):
+        for col in range(len(matriz[fil])):
+            print(f"{matriz[fil][col]}",end=" ")
+        print("")
+
+def validar_dimension_cadena(cadena:str, dimension:int)->bool:
+    """
+        Valida si la longitud de una cadena es mayor o igual a una dimensión dada.
+
+        Esta función verifica que tanto la cadena como la dimensión sean del tipo correcto
+        (cadena de texto y entero, respectivamente) y que la cadena no esté vacía.
+        Si estas condiciones se cumplen, entonces compara la longitud de la cadena
+        con la dimensión especificada.
+
+    Args:
+        cadena: La cadena de texto a validar. Debe ser de tipo 'str'.
+        dimension: El valor entero con el que se comparará la longitud de la cadena. Debe ser de tipo 'int'.
+
+  Returns:
+        True si la 'cadena' es de tipo 'str', no está vacía, la 'dimension' es de tipo 'int',
+        y la longitud de la 'cadena' es mayor o igual a la 'dimension'.
+        False en cualquier otro caso (tipos incorrectos, cadena vacía o longitud insuficiente).
+    """
+    if type(dimension) == int and type(cadena) == str and len(cadena) > 0:
+        if len(cadena) >= dimension:
+            retorno = True
+        else:
+            retorno = False
+    else:
+        retorno = False
+    
+    return retorno
+
+def validar_letras_y_espacios(cadena:str)->bool:
+    """Valida si una cadena de texto contiene únicamente letras (mayúsculas o minúsculas) y espacios.
+
+        Esta función recorre cada carácter de la cadena para verificar su código ASCII.
+        Solo considera válidos los caracteres que son letras del alfabeto inglés (A-Z, a-z)
+        o el carácter de espacio.
+
+    Args:
+        cadena (str): La cadena de texto a validar. Debe ser de tipo 'str'
+
+    Returns:
+        bool: True si la 'cadena' es de tipo 'str' y todos sus caracteres son letras o espacios.
+        False en cualquier otro caso (si no es una cadena, o si contiene números,
+        símbolos u otros caracteres que no sean letras o espacios).
+
+    """
+
+    if type(cadena) == str and len(cadena) > 0:
+        for i in range(len(cadena)):
+            codigo_ascii = ord(cadena[i])
+            if not ((codigo_ascii == 32) or (codigo_ascii >= 65 and codigo_ascii <= 90) or (codigo_ascii >= 97 and codigo_ascii <= 122)):
+                retorno = False
+                break
+            else:
+                retorno = True
+    else:
+        retorno = False
+    
+    return retorno
+
+def validar_numeros(cadena:str)->bool:
+    """ Valida si una cadena de texto contiene únicamente caracteres numéricos.
+
+    Args:
+        cadena (str): La cadena de texto a validar. Debe ser de tipo 'str' y no vacía.
+
+    Returns:
+        bool: True si la 'cadena' es de tipo 'str', no está vacía, y todos sus caracteres
+            son dígitos numéricos.
+            False en cualquier otro caso (si no es una cadena, si está vacía, o si
+            contiene caracteres no numéricos).
+    """
+    if type(cadena) == str and len(cadena) > 0:
+        for i in range(len(cadena)):
+            codigo_ascii = ord(cadena[i])
+            if not (codigo_ascii >= 48 and codigo_ascii <= 57):
+                retorno = False
+                break
+            else:
+                retorno = True
+    else:
+        retorno = False
+    
+    return retorno
+
+def sumar_filas(matriz:list, indice_fila:int)-> int | float:
+    """ Calcula la suma de los elementos numéricos en una fila específica de una matriz.
+
+    Args:
+        matriz (list): Una lista de listas que representa la matriz.
+        indice_fila (int): Un entero que indica el índice de la fila a sumar. Debe ser un índice válido dentro de la matriz (mayor o igual a 0 y menor que el número de filas de la matriz).
+
+    Returns:
+        int | float: La suma de los elementos numéricos de la fila especificada. Retorna 0 si el índice de la fila es inválido, o si no se pudieron sumar elementos debido a errores de tipo.
+    """
+    suma_fila = 0
+    if len(matriz) > indice_fila and indice_fila >= 0:
+        for j in range(len(matriz[indice_fila])):
+            if type (matriz[indice_fila][j]) == int or type (matriz[indice_fila][j]) == float:
+                suma_fila += matriz[indice_fila][j]
+            else:
+                print("Error!! no se puede hacer el calculo")
+    else:
+        print("Error! indice invalido")
+
+    return suma_fila
+
+def calcular_promedio(suma_total:float|int, total_elementos:int)-> int | float:
+    """Calcula el promedio a partir de una suma total y el número total de elementos.
+
+    Args:
+        suma_total (float | int): La suma total de los valores. Puede ser un entero o un flotante.
+        total_elementos (int): El número total de elementos. Debe ser un entero.
+
+    Returns:
+        int | float: El promedio calculado (un entero o un flotante). Si 'total_elementos' es cero o 'suma_total' no es un número, imprime un mensaje de error y retorna 0.
+    """
+    promedio = 0
+    if total_elementos != 0 and (type(suma_total) == int or type(suma_total)== float):
+        promedio += (suma_total / total_elementos)
+    else:
+        print("Error!! no se puede hacer el calculo")
+    
+    return promedio
+
+def mostrar_puntaje_partcipante(array_nombres:list,matriz_puntaje:list,indice:int) -> bool:
+    """ Muestra los puntajes detallados y el promedio de un participante específico
+
+    Args:
+        array_nombres (list): Una lista de cadenas con los nombres de los participantes.
+        matriz_puntaje (list): Una lista de listas que representa los puntajes de los participantes
+        indice (int): Un entero que indica el índice del participante a mostrar.
+
+    Returns:
+        bool: True si la información del participante se mostró correctamente (es decir, si el índice es válido).
+        False si el índice proporcionado no es válido.
+    """
+    if len(array_nombres) > indice and indice >= 0:
+        suma = sumar_filas(matriz_puntaje,indice)
+        promedio = calcular_promedio(suma,len(matriz_puntaje[0]))
+        print(f"\nPARTICIPANTE: {array_nombres[indice]}")
+        print(f"PUNTAJE JURADO 1: {matriz_puntaje[indice][0]}")
+        print(f"PUNTAJE JURADO 2: {matriz_puntaje[indice][1]}")
+        print(f"PUNTAJE JURADO 3: {matriz_puntaje[indice][2]}")
+        print(f"PUNTAJE PROMEDIO : {promedio} \n")
+        retorno = True
+    else:
+        retorno = False
+        
+    return retorno
+
+def mostrar_puntajes_participantes(array_nombres:list,matriz_puntaje:list) -> bool:
+    """Muestra los puntajes detallados y el promedio de cada participante.
+
+    Args:
+        array_nombres (list): Una lista de cadenas, donde cada cadena es el nombre de un participante.
+        matriz_puntaje (list): Una lista de listas de números (enteros o flotantes)
+
+    Returns:
+        bool: True si las listas de entrada son válidas (son listas y no están vacías) y el proceso de mostrar los puntajes se inicia. False si alguna de las entradas no es una lista o está vacía, indicando
+        que no se pudo procesar la información.
+
+    """
+    if type(array_nombres) == list and type(matriz_puntaje) == list and len(array_nombres) > 0 and len(matriz_puntaje) > 0:
+        retorno = True
+        for i in range(len(array_nombres)):
+            mostrar_puntaje_partcipante(array_nombres,matriz_puntaje,i)
+            print("")
+    else:
+        retorno = False
+        
+    return retorno 
+
+def mostrar_participantes_mayor_a_cierto_promedio(array_nombres:list, matriz: list, promedio_minimo:int|float )->bool:
+    """Muestra los detalles de los participantes cuyo promedio de puntaje es mayor al promedio mínimo especificado.
+
+    Args:
+        array_nombres (list): Una lista de cadenas con los nombres de los participantes.
+        matriz (list): Una lista de listas que representa los puntajes de los participantes.
+        promedio_minimo (int | float): Un valor numérico (entero o flotante) que define el umbral.
+
+    Returns:
+        bool: True si al menos un participante cumple con la condición del promedio mínimo
+        y su información es mostrada. False si ningún participante cumple con la condición o si hay un error
+        en las funciones auxiliares que impida el cálculo del promedio.
+    """
+    retorno = False
+    for i in range(len(array_nombres)):
+        suma = sumar_filas(matriz, i)
+        promedio = calcular_promedio(suma,3)
+        if promedio > promedio_minimo:
+            mostrar_puntaje_partcipante(array_nombres,matriz,i)
+            retorno = True
+    
+    return retorno
+
+def sumar_columnas(matriz:list, indice_columna:int)-> int | float:
+    """Calcula la suma de los elementos numéricos en una columna específica de una matriz.
+
+    Args:
+        matriz (list): Una lista de listas que representa la matriz.
+        indice_columna (int): Un entero que indica el índice de la columna a sumar.
+
+    Returns:
+        int | float: La suma de los elementos numéricos de la columna especificada. Retorna 0 si el índice de la columna es inválido, o si no se pudieron sumar
+        elementos debido a errores de tipo.
+    """
+    suma_columna = 0
+    if len(matriz[0]) > indice_columna and indice_columna >= 0:
+        for i in range(len(matriz)):
+            if type (matriz[i][indice_columna]) == int or type (matriz[i][indice_columna]) == float:
+                suma_columna += matriz[i][indice_columna]
+            else:
+                print("Error!! no se puede hacer el calculo")
+    else:
+        print("Error! indice invalido")
+    return suma_columna
+
+def mostrar_promedio_jurado(matriz:list,indice:int) -> bool:
+    """Muestra el puntaje promedio de un jurado específico.
+
+    Args:
+        matriz (list): Una lista de listas que representa los puntajes de los participantes
+        indice (int): Un entero que indica el índice del jurado (columna) cuyo promedio se desea calcular y mostrar
+
+    Returns:
+        bool: True si el índice del jurado es válido y el promedio se calculó y mostró. False si el índice del jurado no es válido.
+    """
+    if len(matriz) > indice and indice >= 0:
+        suma = sumar_columnas(matriz,indice)
+        promedio = calcular_promedio(suma,len(matriz))
+        print(f"PUNTAJE PROMEDIO JURADO {indice+1}: {promedio}")
+        retorno = True
+    else:
+        retorno = False
+        
+    return retorno
+    
+def mostrar_promedios_jurados(matriz:list) -> bool:
+    """Muestra el promedio de puntaje para cada jurado.
+
+    Args:
+        matriz (list): Una lista de listas que representa los puntajes de los participantes
+
+    Returns:
+        bool: True si la matriz de entrada es válida (es una lista y no está vacía) y el proceso de mostrar los promedios de los jurados se inicia. False si la entrada no es una lista o está vacía, indicando que no se pudo procesar la información.
+
+    """
+    if type(matriz) == list and len(matriz) > 0:
+        retorno = True
+        for i in range(len(matriz[0])):
+            mostrar_promedio_jurado(matriz,i)
+            print("")
+    else:
+        retorno = False
+        
+    return retorno 
+
+def cargar_promedios_jurado_en_lista(matriz:list, array:list)->bool:
+    """Carga los promedios de cada jurado en una lista preexistente
+
+    Args:
+        matriz (list): Una lista de listas que representa los puntajes, donde cada columna corresponde a un jurado.
+        array (list): Una lista preexistente que se utilizará para almacenar los promedios calculados de cada jurado.
+
+    Returns:
+        bool: **True** si las entradas son listas válidas y el proceso de carga se realizó. **False** si alguna de las entradas no es de tipo `list`.
+    """
+    if type(matriz) == list and type(array) == list:
+        retorno = True
+        for i in range(len(array)):
+            suma = sumar_columnas(matriz,i)
+            promedio = calcular_promedio(suma,len(matriz))
+            array[i] = promedio
+    else:
+        retorno = False
+    return retorno
+
+def encontrar_menor_en_lista(lista:list)->int | float | None:
+    """Encuentra el valor más pequeño en una lista de números.
+
+    Args:
+        lista (list): La lista de la cual se desea encontrar el valor mínimo.
+
+    Returns:
+        int | float | None: El valor mínimo encontrado en la lista. Retorna `None` si la lista está vacía o no es de tipo `list`. Imprime "error, dato invalido" si la entrada no es una lista válida
+    """
+    bandera_menor = False
+    minimo = None
+    if type(lista) == list and len(lista) > 0:
+        for i in range(len(lista)):
+            if bandera_menor == False:
+                minimo = lista[i]
+                bandera_menor = True
+            elif lista[i] < minimo:
+                minimo = lista[i]
+    else:
+        print("error, dato invalido")
+
+    return minimo
+
+def mostrar_jurado_mas_estricto(lista:list, minimo:float|int)->bool:
+    """Muestra el jurado que tiene el promedio de puntaje más bajo de acuerdo a un puntaje minimo indicado.
+
+    Args:
+        lista (list): Una lista de promedios de puntajes, donde cada elemento representa el promedio de un jurado.
+        minimo (float | int): El valor mínimo de promedio de puntaje que se busca
+
+    Returns:
+        bool:**True** si la entrada `lista` es una lista válida y no está vacía. **False** si la entrada `lista` no es de tipo `list` o está vacía.
+    """
+    if type(lista) == list and len(lista) > 0:
+        for i in range(len(lista)):
+            if lista[i] == minimo:
+                print(f"El jurado mas estricto es el numero {i+1}\ncon un promedio de: {lista[i]}")
+
+        retorno = True
+
+    else:
+        retorno = False
+    
+    return retorno
+
+def buscar_y_mostrar_nombre(lista_nombres:list, nombre_a_buscar:str, matriz_puntaje:list)->bool | str:
+    """Busca un nombre de participante en una lista y muestra sus puntajes si lo encuentra.
+
+    Args:
+        lista_nombres (list): Una lista de cadenas con los nombres de los participantes.
+        nombre_a_buscar (str): La cadena que representa el nombre del participante que se desea buscar.
+        matriz_puntaje (list): Una lista de listas que representa los puntajes de los participantes
+
+    Returns:
+        bool | str: **True** si el `nombre_a_buscar` fue encontrado en `lista_nombres` y se mostraron sus puntajes.**False** si el nombre no fue encontrado o si alguna de las entradas (`lista_nombres`, `nombre_a_buscar`, `matriz_puntaje`) es inválida.
+    """
+    if type(lista_nombres)==list and len(lista_nombres) > 0 and type(nombre_a_buscar) and type(matriz_puntaje) == list:
+        bandera = False
+        for i in range(len(lista_nombres)):
+            if nombre_a_buscar == lista_nombres[i]:
+                mostrar_puntaje_partcipante(lista_nombres, matriz_puntaje,i)
+                bandera = True
+                break
+            else:
+                bandera = False
+    else:
+        imprimir_mensaje = print("Ocurrio un error, alguno de los datos es invalido")
+        bandera = imprimir_mensaje
+
+    
+    return bandera
+
+def ordenar_array_mayor_menor(array_a_ordenar:list) -> bool:
+    """Ordena una lista de elementos numéricos de mayor a menor utilizando el algoritmo de burbuja.
+
+    Args:
+        array_a_ordenar (list): 
+
+    Returns:
+        bool: **True** si la lista fue válida y el proceso de ordenamiento se llevó a cabo.
+        **False** si la entrada no es una lista o está vacía.
+    """
+    if type(array_a_ordenar) == list and len(array_a_ordenar) > 0:
+        retorno = True
+        for i in range(len(array_a_ordenar)-1):
+            for j in range(i+1,len(array_a_ordenar)):
+                if array_a_ordenar[i] < array_a_ordenar[j]:
+                    auxiliar = array_a_ordenar[i]
+                    array_a_ordenar[i] = array_a_ordenar[j]
+                    array_a_ordenar[j] = auxiliar
+                    
+    else:
+        retorno = False
+    
+    return retorno
+
+def ordenar_array_menor_mayor(array_a_ordenar:list) -> bool:
+    """Ordena una lista de elementos numéricos de menor a mayor utilizando el algoritmo de burbuja.
+
+    Args:
+        array_a_ordenar (list): La lista de números (enteros o flotantes) que se desea ordenar.
+
+    Returns:
+        bool:**True** si la lista fue válida y el proceso de ordenamiento se llevó a cabo.
+          **False** si la entrada no es una lista o está vacía.
+    """
+    if type(array_a_ordenar) == list and len(array_a_ordenar) > 0:
+        for i in range(len(array_a_ordenar)-1):
+            for j in range(i+1,len(array_a_ordenar)):
+                if array_a_ordenar[i] > array_a_ordenar[j]:
+                    auxiliar = array_a_ordenar[i]
+                    array_a_ordenar[i] = array_a_ordenar[j]
+                    array_a_ordenar[j] = auxiliar
+    else:
+        retorno = False
+    
+def cargar_promedios_participantes_en_lista(matriz:list, array:list)->bool:
+    """Carga los promedios de cada participante en una lista preexistente.
+
+    Args:
+        matriz (list): Una lista de listas que representa los puntajes de los participantes
+        array (list): Una lista preexistente que se utilizará para almacenar los promedios
+    Returns:
+        bool: **True** si las entradas son listas válidas y el proceso de carga se realizó.
+          **False** si alguna de las entradas no es de tipo `list`.
+    """
+    if type(matriz) == list and type(array) == list:
+        retorno = True
+        for i in range(len(array)):
+            suma = sumar_filas(matriz,i)
+            promedio = calcular_promedio(suma,len(matriz[0]))
+            array[i] = promedio
+    else:
+        retorno = False
+    return retorno
+
+def cargar_top3_promedio_participantes_en_lista(lista_promedios_ordenadas:list, lista_top3:list)->bool:
+    """Carga los tres promedios más altos de participantes en una lista designada
+
+    Args:
+        lista_promedios_ordenadas (list): Una lista de promedios de puntajes de participantes ordenada de mayor a menor
+        lista_top3 (list):  Una lista preexistente que se utilizará para almacenar los promedios del top 3 de participantes.
+
+    Returns:
+        bool: **True** si ambas listas de entrada son válidas (son listas y no están vacías)
+          y el proceso de carga se realizó.
+          **False** si alguna de las entradas no es de tipo `list` o está vacía.
+    """
+    if type(lista_promedios_ordenadas) == list and len(lista_promedios_ordenadas) > 0 and type(lista_top3) == list and len(lista_top3) > 0:
+        retorno = True
+        for i in range(len(lista_top3)):
+            lista_top3[i] = lista_promedios_ordenadas[i]
+    else:
+        retorno = False
+    
+    return retorno
+
+def mostrar_top_3_promedios_participantes(lista_top3:list, array_promedios_participantes:list, array_participantes:list)->bool:
+    """Muestra el top 3 de participantes basándose en sus promedios de puntaje.
+
+    Args:
+        lista_top3 (list): Una lista que contiene los 3 promedios más altos de los participantes.
+        array_promedios_participantes (list): Una lista que contiene los promedios de puntaje de todos los participantes.
+        array_participantes (list): Una lista de cadenas con los nombres de todos los participantes.
+
+    Returns:
+        bool: **True** si todas las listas de entrada son válidas (son listas y no están vacías)
+          y el proceso de mostrar el top 3 se llevó a cabo.
+          **False** si alguna de las entradas no es de tipo `list` o está vacía.
+    """
+    if type(lista_top3) == list and type(array_promedios_participantes) == list and type(array_participantes) == list and len(lista_top3) > 0 and len(array_promedios_participantes) > 0 and len(array_participantes) > 0:
+        retorno = True
+        for i in range(len(lista_top3)):
+            for j in range(len(array_promedios_participantes)):
+                if lista_top3[i] == array_promedios_participantes[j]:
+                    print(f"En el puesto {i+1} se encuentra el participante: {array_participantes[j]}, con un promedio de {lista_top3[i]}")
+    else:
+        retorno = False
+    
+    return retorno
+
+def cargar_participantes_en_lista_auxiliar(lista_a_cargar:list, lista_donde_se_carga:list)->bool:
+    """Copia los elementos de una lista de participantes a otra lista auxiliar
+
+    Args:
+        lista_a_cargar (list): La lista de origen de la cual se copiarán los elementos.
+        lista_donde_se_carga (list): La lista de destino donde se cargarán los elementos.
+
+    Returns:
+        bool: **True** si ambas listas de entrada son válidas (son listas y no están vacías)
+          y la copia se realizó con éxito.
+          **False** si alguna de las entradas no es de tipo `list` o está vacía,
+          indicando que la operación no pudo llevarse a cabo.
+    """
+    if type(lista_a_cargar) == list and len(lista_a_cargar) > 0 and type(lista_donde_se_carga) == list and len(lista_donde_se_carga) > 0:
+        retorno = True
+        for i in range(len(lista_a_cargar)):
+            lista_donde_se_carga[i] = lista_a_cargar[i]
+    else:
+        retorno = False
+    
+    return retorno
